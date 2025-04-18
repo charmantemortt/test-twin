@@ -72,5 +72,5 @@ celerybeat-schedule.db
 /db/
 .precomcache
 
-/src/.env
+src/.env
 .env

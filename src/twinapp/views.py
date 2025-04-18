@@ -134,13 +134,12 @@ def twin_webhook(request):
             logging.info(f"Webhook пришёл: {json.dumps(data, indent=2, ensure_ascii=False)}")
 
             result = data.get("result", {})
-            call_status = data.get("status")  # Добавляем статус звонка
+            call_status = data.get("status")
             variables = result.get("переменные", {})
             name = variables.get("имя", "Не указано")
             color = variables.get("цвет", "Не указан")
             phone = result.get("phone", "Не указан")
 
-            # Отправляем сообщение в Telegram при завершении звонка
             if call_status == "call_finished":
                 message = (
                     f"Результат звонка:\n\n"
@@ -152,7 +151,6 @@ def twin_webhook(request):
                 bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
                 logging.info(f"Отправлено в Telegram: {message}")
 
-            # Дополнительно сохраняем обработку подтверждения цвета
             if result.get("confirmation") == "есть_цвет":
                 text = f"{name}\n{color}\n{phone}"
                 bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=text)
@@ -165,3 +163,6 @@ def twin_webhook(request):
             bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=f"Ошибка обработки webhook: {str(e)}")
 
         return JsonResponse({"status": "ok"})
+
+
+    return JsonResponse({"status": "twin webhook active"}, status=200)
