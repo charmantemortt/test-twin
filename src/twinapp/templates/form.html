@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Голосовой бот TWIN</title>
+</head>
+<body>
+  <h1>Позвонить через голосового бота</h1>
+  <form method="POST">
+    {% csrf_token %}
+    <label>Имя: <input type="text" name="name" required></label><br>
+    <label>Телефон: <input type="text" name="phone" required></label><br>
+    <button type="submit">Запустить звонок</button>
+  </form>
+</body>
+</html>

@@ -1,0 +1,27 @@
+FROM python:3.10-slim
+
+# Установка системных зависимостей
+RUN apt-get update && apt-get install -y netcat-openbsd supervisor nginx
+
+# Создаем директорию для конфигурации Supervisor
+RUN mkdir -p /etc/supervisor/conf.d
+
+# Установка рабочей директории
+WORKDIR /app
+
+# Установка переменных окружения
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Копируем и устанавливаем зависимости
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Копируем исходный код
+COPY . /app/
+
+# Открываем порты
+EXPOSE 8000 80 9001
+
+# Устанавливаем точку входа
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

@@ -1,0 +1,50 @@
+services:
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    env_file:
+      - .env
+
+  redis:
+    image: redis:6.0
+    networks:
+      - app-network
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - .env
+    networks:
+      - app-network
+    volumes:
+      - ./static:/app/static
+      - ./media:/app/media
+      - ./logs:/app/logs
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "
+      while ! nc -z db 5432; do sleep 1; done;
+      python srmanage.py migrate &&
+      python manage.py collectstatic --noinput &&
+      gunicorn --bind 0.0.0.0:8000 _project_.wsgi:application"
+
+volumes:
+  db-data:
+  letsencrypt:
+
+networks:
+  app-network:
+    driver: bridge
