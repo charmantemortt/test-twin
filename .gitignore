@@ -1,10 +1,76 @@
-.idea/
+# Created by https://www.gitignore.io
 
-*.pyc
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
 
-menv/
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
 env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
 
-*.sqlite3
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
 
-media
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+### Django ###
+*.log
+*.pyc
+local_settings.py
+
+venv/
+.env
+.environment
+static/
+media/
+
+# vscode
+.vscode/
+
+# testing
+/coverage
+/.pytest_cache
+/.idea
+
+# Celery stuff
+celerybeat.pid
+celerybeat-schedule
+celerybeat-schedule.db
+
+# docker compose databases storages
+/storage/
+/db/
+.precomcache
+
+/src/.env
+.env
