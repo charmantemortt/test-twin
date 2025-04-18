@@ -55,6 +55,9 @@ def launch_twin_call(name, phone):
         "cidData": "29f8c5e5-4e00-45c3-8700-9bbd1d1a0653",
         "startType": "manual",
         "cps": 1.01,
+        "webhookUrls": [
+            "http://golubdop.ru/twin-webhook/"
+        ],
         "additionalOptions": {
             "fullListMethod": "reject",
             "fullListTime": 30,
