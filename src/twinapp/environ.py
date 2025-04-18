@@ -1,5 +1,18 @@
-TWIN_EMAIL = "dawnwestmorland45@gmail.com"
-TWIN_PASSWORD = "d66f9e52e7063e807fd3b3ea22c45de6"
-TWIN_SCENARIO_ID = "5f5500d5-d0cd-4df8-930e-732eaf92dd86"
-TELEGRAM_BOT_TOKEN = "7741299887:AAErXkovUUXf-fqlOnkNzkZfGcMQ-eJIUis"
-TELEGRAM_CHAT_ID = "1261356740"
+import environ
+import os
+
+# Путь к .env
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+# TWIN
+TWIN_EMAIL = env("TWIN_EMAIL")
+TWIN_PASSWORD = env("TWIN_PASSWORD")
+TWIN_SCENARIO_ID = env("TWIN_SCENARIO_ID")
+TWIN_CALLER_ID = env("TWIN_CALLER_ID")
+TWIN_WEBHOOK_URL = env("TWIN_WEBHOOK_URL")
+
+# TELEGRAM
+TELEGRAM_BOT_TOKEN = env("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = env("TELEGRAM_CHAT_ID")
