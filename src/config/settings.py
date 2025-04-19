@@ -150,8 +150,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Настройки CSRF и сессий
 CSRF_TRUSTED_ORIGINS = [
-    'https://222f-103-90-75-40.ngrok-free.app',
-    'https://*.ngrok-free.app'
+    'http://golubdop.ru/'
 ]
 
 CSRF_COOKIE_SECURE = True
