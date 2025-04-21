@@ -20,7 +20,6 @@ from .environ import (
     TWIN_WEBHOOK_URL,
 )
 
-# --- Логирование ---
 LOG_PATH = os.path.join(os.path.dirname(__file__), 'twin_debug.log')
 logging.basicConfig(
     filename=LOG_PATH,
@@ -28,10 +27,8 @@ logging.basicConfig(
     format='%(asctime)s [%(levelname)s] %(message)s',
 )
 
-# --- Инициализация Telegram бота (синхронно) ---
 bot = Bot(token=TELEGRAM_BOT_TOKEN, request=Request())
 
-# --- Получение токена TWIN ---
 def get_twin_token():
     logging.info("Получение токена от TWIN...")
     try:
@@ -47,7 +44,6 @@ def get_twin_token():
         logging.error(f"Ошибка при получении токена: {e}")
     return None
 
-# --- Запуск обзвона ---
 def launch_twin_call(name, phone):
     logging.info(f"Запуск обзвона для {name}, номер: {phone}")
     token = get_twin_token()
@@ -55,7 +51,6 @@ def launch_twin_call(name, phone):
         logging.error("Токен не получен. Прерывание.")
         return
 
-    # 1. Создание задания
     job_payload = {
         "name": f"Обзвон от {name}",
         "defaultExec": "robot",
@@ -99,7 +94,6 @@ def launch_twin_call(name, phone):
         logging.error("Не удалось получить job_id. Завершение.")
         return
 
-    # 2. Добавление кандидатов
     time.sleep(5)
 
     candidate_payload = {
@@ -126,7 +120,6 @@ def launch_twin_call(name, phone):
     else:
         logging.info(f"Кандидат успешно добавлен в задание {job_id}")
 
-# --- Обработка формы (фронт) ---
 def form_view(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -136,7 +129,6 @@ def form_view(request):
         return render(request, "form.html", context={"success": True})
     return render(request, "form.html")
 
-# --- Webhook от TWIN ---
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
 def twin_webhook(request):
@@ -156,7 +148,6 @@ def twin_webhook(request):
             result = data.get("result", {})
             call_status = data.get("status", "unknown")
 
-            # Обработка переменных
             name = result.get("Имя", result.get("initialVariables", {}).get("имя", "Не указано")).strip()
             color = result.get("Цвет", result.get("initialVariables", {}).get("цвет", "Не указан")).strip()
             phone = result.get("initialVariables", {}).get("phone", "Не указан")
